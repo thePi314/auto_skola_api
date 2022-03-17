@@ -1,0 +1,6 @@
+#!/bin/sh
+
+set -o errexit
+set -o nounset
+
+python -m celery -A auto_skola worker -P gevent --loglevel=INFO --concurrency=500

@@ -1,0 +1,19 @@
+#!/bin/sh
+
+set -o errexit
+set -o nounset
+
+python manage.py migrate
+#python manage.py migrate auth 
+#python manage.py generate_endpoint_permissions
+
+
+#if [ -n "${LOAD_INITIAL_DATA}" ]; then
+#
+#    echo 'Loading initial data'
+#    python manage.py loaddata initial_data.json
+#
+#fi
+python manage.py collectstatic --noinput
+
+python -m uvicorn auto_skola.asgi:application --host 0.0.0.0 --port 8000 --reload

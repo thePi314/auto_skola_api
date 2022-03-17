@@ -1,0 +1,37 @@
+version: '3.4'
+
+services:
+  db:
+    image: 'postgres:latest'
+    ports:
+      - 5432:5432
+    restart: always 
+    env_file:
+      - ./.envs/.local/.postgres
+  web:
+    build:
+      context: .
+      dockerfile: compose/web/Dockerfile
+    image: 'auto_skola'
+    restart: always
+    volumes:
+      - ./:/code
+    links:
+      - db
+    command: /start
+    env_file:
+      - ./.envs/.local/.web
+      - ./.envs/.local/.postgres
+  nginx:
+    build:
+      context: .
+      dockerfile: compose/nginx/Dockerfile
+    ports:
+      - 8001:8001
+    volumes:
+      - ./:/code
+      - ./compose/nginx/local.conf:/etc/nginx/conf.d/default.conf
+      - ./media:/media
+      - ./static:/static
+    depends_on:
+      - web

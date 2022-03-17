@@ -1,0 +1,5 @@
+DJANGO_DEBUG=True
+DEBUG=True
+ENVIRONMENT=local
+
+DJANGO_SECRET_KEY=nyrqqyc2nr43rhwerfy3xq3rmh43qrodhy48743qqyrq3n7rc
